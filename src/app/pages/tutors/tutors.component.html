@@ -1,15 +1,15 @@
 <h1>Tutors</h1>
 <mat-sidenav-container class="example-container">
-    <mat-sidenav mode="side" opened>
+    <mat-sidenav #drawer mode="side" [opened]="!isMobile">
       <mat-nav-list>
         <mat-list>
             <mat-list-item *ngFor="let tutor of tutors">
-                @if (tutor.profilePicture_name === null) {
-                  <mat-icon matListItemAvatar aria-hidden="false" aria-label="Tutor Avatar" fontIcon="face"></mat-icon>
-                } @else {
-                  <img matListItemAvatar src="{{ uploadsFolder }}{{ tutor.profilePicture_name }}" alt="Tutor's avatar">
-                }
-                <button mat-button (click)="selectTutor(tutor)">
+                <button mat-button (click)="handleButtonClick(tutor, drawer)">
+                  @if (tutor.profilePicture_name === null) {
+                    <mat-icon matListItemAvatar aria-hidden="false" aria-label="Tutor Avatar" fontIcon="face"></mat-icon>
+                  } @else {
+                    <img matListItemAvatar src="{{ uploadsFolder }}{{ tutor.profilePicture_name }}" alt="Tutor's avatar">
+                  }
                     {{ tutor.name }}
                 </button>
             </mat-list-item>
@@ -32,6 +32,10 @@
       </mat-nav-list>
     </mat-sidenav>
     <mat-sidenav-content>
+      <button *ngIf="isMobile" type="button" mat-button (click)="drawer.open()">
+        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#454545"><path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"/></svg>
+        View tutors
+      </button>
       <!-- Selected tutor -->
        @if(selectedTutor){
          <mat-card class="example-card" appearance="outlined">

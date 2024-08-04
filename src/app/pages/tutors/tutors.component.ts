@@ -9,6 +9,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatCardModule} from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 const tutorsURI = `${environment.API_URL}/tutors`
 interface Tutor {
@@ -32,13 +33,18 @@ export class TutorsComponent {
   tutors: Tutor[] = []; // Placeholder for fetched data
   selectedTutor: Tutor | null = null;
   uploadsFolder = environment.API_URL + '/uploads/';
+  isMobile: boolean = false;
   
-  
-  constructor(private http: HttpClient) {} // Inject HttpClient
+  constructor(private http: HttpClient, private breakpointObserver: BreakpointObserver) {} // Inject HttpClient
 
   ngOnInit() {
     this.fetchTutors();
+    this.breakpointObserver.observe([Breakpoints.Handset])
+      .subscribe(result => {
+        this.isMobile = result.matches;
+      });
   }
+  
 
   async fetchTutors() {
     this.http.get(tutorsURI)
@@ -50,5 +56,11 @@ export class TutorsComponent {
 
   selectTutor(tutor: Tutor) {
     this.selectedTutor = tutor;
+  }
+  handleButtonClick(tutor: any, drawer: any) {
+    this.selectTutor(tutor);
+    if (this.isMobile) {
+      drawer.close();
+    }
   }
 }

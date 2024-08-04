@@ -4,6 +4,7 @@ mat-sidenav-container {
 
 mat-sidenav {
   width: 250px;
+  
 }
 
 .example-container {
@@ -22,4 +23,9 @@ mat-sidenav {
 .example-header-image {
   background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
   background-size: cover;
+}
+@media (max-width: 500px){
+    mat-sidenav {
+      width: 100%;
+    }
 }
